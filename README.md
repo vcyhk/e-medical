@@ -1,5 +1,5 @@
 # E-Medical
-In the E-Medical, we will mainly use bloackchain to process the transaction between patient and doctor, the doctor needs to have the patient’s permission to view and edit the medical history, and the patient themselves just can view the medical history and give the permission to the doctor, they don’t have permission to edit medical history because we assume that patient doesn’t have any knowledge in this domain, that is the main goal of this project.
+It is a final year project. In the E-Medical, we will mainly use bloackchain to process the transaction between patient and doctor, the doctor needs to have the patient’s permission to view and edit the medical history, and the patient themselves just can view the medical history and give the permission to the doctor, they don’t have permission to edit medical history because we assume that patient doesn’t have any knowledge in this domain, that is the main goal of this project.
 
 ## Wireframe
 ![wireframe](wireframe.jpeg)
