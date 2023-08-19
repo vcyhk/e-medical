@@ -2,8 +2,7 @@ import Web3 from 'web3';
 
 const web3 = new Web3(window.ethereum);
 
-const address = '0x679c00fa3751F374933F86a216bd78a78c1A3aa6'; 
-//Rinkbey 0x022Bb2979E2363E95483666d2d0f3808D19B5bE5 
+const address = '0xd9A1aabDD7a0f952F10d5f4A618dac80De772555'; // Sepolia Testnet
 
 const abi = [
 	{

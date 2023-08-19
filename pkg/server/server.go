@@ -37,7 +37,6 @@ func (s *Server) init() {
 		r.Post("/doctor/register", s.RegisterDoctor)
 		r.Post("/patient/register", s.RegisterPatient)
 		r.Post("/login", s.Login)
-
 		r.Post("/forgot", s.ForgotPassowrd)
 		r.Post("/passwordreset", s.PasswordReset)
 	})

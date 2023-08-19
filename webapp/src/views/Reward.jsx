@@ -93,11 +93,11 @@ const Reward = () => {
     const address = await accounts.toString();
     const wBalance = await medicalToken.methods.balanceOf(address).call();
     setBalance(wBalance);
-    console.log(balance);
+    //console.log(balance);
   };
 
   const viewEthAc = () => {
-    window.location.href = `https://rinkeby.etherscan.io/address/${accounts}`; 
+    window.location.href = `https://sepolia.etherscan.io/address/${accounts}`; 
   }
 
 

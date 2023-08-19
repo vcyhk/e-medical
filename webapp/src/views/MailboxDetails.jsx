@@ -138,8 +138,6 @@ function MailboxDetails() {
                 setError(err.message);
                 setSubmiting(false);
             }
-            
-
     }
 
 

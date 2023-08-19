@@ -3,11 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import SecurityQuestion from '../components/SecurityQuestion';
 import Collapsible from 'react-collapsible';
+import Web3 from 'web3';
 
 function RegisterDoctor() {
     const navigate = useNavigate();
-    // doctor have
-    // email, password, confirm_password, name, registration_number, hospital and department
 
     const [doctor, setDoctor] = useState({
         email: '',
@@ -17,11 +16,13 @@ function RegisterDoctor() {
         registration_number: '',
         hospital: '',
         department: '',
-        wallet_address: ' ',
+        wallet_address: '',
     })
     const [isNext, setIsNext] = useState(false)
+    const [isConnect, setIsConnect] = useState(false)
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
+    const [accounts, setCurrentAccount] = useState();
 
     const handleChange = (e) => {
         setDoctor({
@@ -33,8 +34,7 @@ function RegisterDoctor() {
     // handle next button
     const handleNext = (e) => {
         e.preventDefault();
-        console.log(doctor)
-
+        doctor.wallet_address = accounts;
         if (doctor.email === '' || doctor.password === '' || doctor.confirm_password === '' || doctor.name === '' || doctor.registration_number === '' || doctor.hospital === '' || doctor.department === '' || doctor.wallet_address === '' ) {
             setError('all fields are required')
         } else if (doctor.password !== doctor.confirm_password) {
@@ -70,6 +70,12 @@ function RegisterDoctor() {
                 console.log(err);
                 setLoading(false)
             });
+    }
+    const connectMeta = async () => {
+        setIsConnect(true);
+        const web3 = new Web3(window.ethereum);
+        const accounts = await web3.eth.requestAccounts();
+        setCurrentAccount(accounts[0]);
     }
 
     if (isNext) {
@@ -126,12 +132,21 @@ function RegisterDoctor() {
                             <p>
                                 We highly recommend using MetaMask to connect.<br/>
                                 1. Login your Metamask account.<br/>
-                                2. Copy your Ethereum Address. (e.g. 0x......)<br/>
-                                Note: After you enter the address, you are not allow to change it.<br/>
+                                2. Connect your Ethereum Address. (e.g. 0x......)<br/>
+                                Note: After you select the address, you are not allow to change it.<br/>
                                 If you have any questions, please contact the admin.
                             </p>
                             </Collapsible></label>
-                            <input type="text" name="wallet_address" id="wallet_add" onChange={handleChange} value={doctor.wallet_address}/>
+                            {!isConnect?
+                            <div className='form-field-blockchain' style={{ textAlign: 'center' }}> 
+                                <button type="button" onClick={connectMeta}>Connect MetaMask</button>
+                            </div>
+                            :
+                            <div style={{ textAlign: 'center', margin:'20px 0px'}}>
+                            {accounts}<br /> 
+                            Connected
+                            </div>
+                            }
                         </div> 
                         <div className="form-field"
                             style={{

@@ -3,6 +3,7 @@ import axios from 'axios';
 import SecurityQuestion from '../components/SecurityQuestion';
 import { useNavigate } from 'react-router-dom';
 import Collapsible from 'react-collapsible';
+import Web3 from 'web3';
 
 function RegisterPatient() {
     const navigate = useNavigate();
@@ -17,10 +18,13 @@ function RegisterPatient() {
         hkid: '',
         phone: '',
         address: '',
+        wallet_address: '',
     })
     const [error, setError] = useState('')
     const [isNext, setIsNext] = useState(false)
+    const [isConnect, setIsConnect] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [accounts, setCurrentAccount] = useState();
 
     const handleChange = (e) => {
         setPatient({
@@ -32,9 +36,9 @@ function RegisterPatient() {
     // handle next button
     const handleNext = (e) => {
         e.preventDefault();
-        console.log(patient)
-
-        if (patient.email === '' || patient.password === '' || patient.confirm_password === '' || patient.name === '' || patient.birthday === '' || patient.hkid === '' || patient.phone === '' || patient.address === '') {
+        
+        patient.wallet_address = accounts;
+        if (patient.email === '' || patient.password === '' || patient.confirm_password === '' || patient.name === '' || patient.birthday === '' || patient.hkid === '' || patient.phone === '' || patient.address === '' || patient.wallet_address === '' ) {
             setError('all fields are required')
         } else if (patient.password !== patient.confirm_password) {
             setError('password and confirm password must be the same')
@@ -50,13 +54,20 @@ function RegisterPatient() {
         setIsNext(false)
     }
 
+    const connectMeta = async () => {
+        setIsConnect(true);
+        const web3 = new Web3(window.ethereum);
+        const accounts = await web3.eth.requestAccounts();
+        setCurrentAccount(accounts[0]);
+    }
+
     const handleSubmit = () => {
         setLoading(true)
         axios.post('/patient/register', {
             ...patient
         })
             .then(res => {
-                console.log(res);
+                //(res);
                 if (res.data.error) {
                     setError(res.data.error)
                 } else {
@@ -134,12 +145,21 @@ function RegisterPatient() {
                             <p>
                                 We highly recommend using MetaMask to connect.<br/>
                                 1. Login your Metamask account.<br/>
-                                2. Copy your Ethereum Address. (e.g. 0x......)<br/>
-                                Note: After you enter the address, you are not allow to change it.<br/>
+                                2. Connect your Ethereum Address. (e.g. 0x......)<br/>
+                                Note: After you select the address, you are not allow to change it.<br/>
                                 If you have any questions, please contact the admin.
                             </p>
                             </Collapsible></label>
-                            <input type="text" name="wallet_address" id="wallet_add" onChange={handleChange} />
+                            {!isConnect?
+                            <div className='form-field-blockchain' style={{ textAlign: 'center' }}> 
+                                <button type="button" onClick={connectMeta}>Connect MetaMask</button>
+                            </div>
+                            :
+                            <div style={{ textAlign: 'center', margin:'20px 0px'}}>
+                            {accounts}<br /> 
+                            Connected
+                            </div>
+                            }
                         </div> 
                         <div className="form-field" style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <button type="button" onClick={()=>{navigate(-1)}}>Cancel</button>

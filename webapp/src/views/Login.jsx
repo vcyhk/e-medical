@@ -29,7 +29,7 @@ function Login() {
             password
         })
             .then(res => {
-                console.log(res);
+                //console.log(res);
                 if (res.data.error) {
                     setError(res.data.error);
                 } else {
