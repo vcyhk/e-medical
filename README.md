@@ -8,8 +8,8 @@ In the E-Medical, we will mainly use blockchain to process the transaction betwe
 Install golang from [https://golang.org/dl/](https://golang.org/dl/)
 ### node
 Install node from [https://nodejs.org/en/](https://nodejs.org/en/)
-### mongodb
-Install mongodb from [https://www.mongodb.com/download-center/community/](https://www.mongodb.com/download-center/community/)
+### MongoDB Atlas
+Set up the MongoDB Atlas, then paste the URL in main.go
 
 ## Configuration
 Edit mongo db uri from main.go file. And install all npm packages for web app. Using command:
